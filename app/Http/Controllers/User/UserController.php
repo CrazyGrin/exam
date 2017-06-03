@@ -15,10 +15,9 @@ use App\Http\Controllers\Teacher\TeacherController;
 
 class UserController extends Controller
 {
-    public function index($auth,Request $request){
+    public function index(){
         
 
-        if ($auth == 1) {
             session_start();
             $students;
             $username = $_SESSION["username"];
@@ -31,10 +30,6 @@ class UserController extends Controller
             var_dump($me);
 
             return view('user.index', ['data' => $data]);
-        } elseif ($auth == 2) {
-            $teacherController = new TeacherController();
-            $teacherController->index($request);
-        }
 
     }
 
@@ -57,39 +52,20 @@ class UserController extends Controller
 
     	$username = $request->username;
     	$password = $request->password;
-        $auth = $request->auth;
 
+        $rows = DB::select('select password from users where name = ?', [$username]);
 
-        echo "$auth";
-        if ($auth == 1) {
+        $competence = DB::select('select auth from users where name = ?', [$username]);
 
-            $rows = DB::select('select password from users where name = ?', [$username]);
-
-            $competence = DB::select('select auth from users where name = ?', [$username]);
-
-            if (sizeof($rows)!=0 && $password == $rows[0]->password) {
-                session_start();
-                $_SESSION["username"] = $username;
-                $_SESSION["competence"] = $competence;
-
-                if ($auth == 1) {
-                    return redirect('/user/index/' . $auth);
-                }
-                //...
-            }else{
-                return "fail";
-            };
-        }elseif ($auth == 2) {
-
+        if (sizeof($rows)!=0 && $password == $rows[0]->password) {
             session_start();
             $_SESSION["username"] = $username;
             $_SESSION["competence"] = $competence;
-            
-            return redirect('/user/index/' . $auth);
 
-        }elseif ($auth == 3) {
-            echo "管理员界面";
-        }
+            return redirect('/user/index');
+        }else{
+            return "fail";
+        };
 
     }
 
@@ -113,17 +89,7 @@ class UserController extends Controller
         $major = $request->major;
         $grade = $request->grade;
 
-        echo "update student set 
-            name = '{$username}',
-            password = '{$password}',
-            gender = '{$gender}',
-            class_num = '{$class_num}',
-            major_num = '{$major_num}',
-            major = '{$major}',
-            grade = '{$grade}' 
-            where id = ?";
-
-            DB::update("update students set 
+        $affected = DB::update("update students set 
             name = '{$username}',
             password = '{$password}',
             gender = '{$gender}',
@@ -132,10 +98,6 @@ class UserController extends Controller
             major = '{$major}',
             grade = '{$grade}' 
             where id = ?", [$user_id]);
-
-            DB::update("update users set 
-            name = '{$username}' 
-            where password = ?", [$password]);
 
         $_SESSION['username'] = $username;
 

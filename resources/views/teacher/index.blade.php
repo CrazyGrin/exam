@@ -13,12 +13,10 @@
         <form action="./update" method="POST">
             
         </form>
-        <form action="./logout" method="GET">
-            <button type="submit">退出登录</button>
-        </form>
-        <h1>本班学生</h1>
+        <h1>我的学生</h1>
         <hr>
-        @foreach ($data['students'] as $student)
+
+                @foreach ($data['students'] as $student)
         <p>id : {{ $student->id }}</p>
         <p>姓名 : {{ $student->name }}</p>
         <p>学号(密码) : {{ $student->password }}</p>
@@ -32,7 +30,9 @@
         </p>
         <hr>
         @endforeach
-        <a href="http://jwzx.cqupt.edu.cn/jwzxtmp/kebiao/kb_stu.php?xh={{ $data['me'][0]->password }}">查看我的课表</a>
+        <form action="./logout" method="GET">
+            <button type="submit">退出登录</button>
+        </form>
     </div>
 </body>
 </html>
