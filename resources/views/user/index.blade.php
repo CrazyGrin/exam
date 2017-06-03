@@ -12,12 +12,12 @@
     <div class="main">
         <form action="http://localhost/RedrockExam/public/user/update" method="POST">
             <input type="hidden" name="user_id" value="{{ $data['me'][0]->
-            id }}">
+            id }}" readonly>
             <input type="text" name="username" value="{{ $data['me'][0]->
             name }}">
             <br>
             <input type="text" name="password" value="{{ $data['me'][0]->
-            password }}">
+            password }}" readonly>
             <br>
             <input type="text" name="gender" value="{{ $data['me'][0]->
             gender }}">

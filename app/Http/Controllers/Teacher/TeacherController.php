@@ -18,7 +18,7 @@ class TeacherController extends Controller
 	public function loginPage(){
     	session_start();
 
-    	if (isset($_SESSION["username"])) {
+    	if (isset($_SESSION["username_tea"])) {
     	    return redirect('/teacher/index/');
     	}
     	else {
@@ -29,7 +29,7 @@ class TeacherController extends Controller
     public function index(Request $request){
 
             session_start();
-            $username = $_SESSION["username"];
+            $username = $_SESSION["username_tea"];
             $me = DB::select('select * from teachers where name = ?' ,[$username]);
 
             var_dump($me[0]->class_num);
@@ -55,17 +55,13 @@ class TeacherController extends Controller
 
         if (sizeof($rows)!=0 && $password == $rows[0]->password) {
             session_start();
-            $_SESSION["username"] = $username;
+            $_SESSION["username_tea"] = $username;
             $_SESSION["competence"] = $competence;
 
             return redirect('/teacher/index');
         }else{
             return "fail";
         };
-
-    }
-
-    public function createAnnouncement(){
 
     }
 

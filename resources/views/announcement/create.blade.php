@@ -13,5 +13,5 @@
     <br>
     <textarea name="body" rows="10" required="required" placeholder="请输入内容" style="resize: none; width: 300px;height: 500px;padding: 20px"></textarea>
     <br>
-    <button type="submit">新增文章</button>
+    <button type="submit">发布公告</button>
 </form>

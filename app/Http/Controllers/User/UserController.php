@@ -17,26 +17,25 @@ class UserController extends Controller
 {
     public function index(){
         
+        session_start();
+        $students;
+        $username = $_SESSION["username_stu"];
+        $me = DB::select('select * from students where name = ?', [$username]);
 
-            session_start();
-            $students;
-            $username = $_SESSION["username"];
-            $me = DB::select('select * from students where name = ?', [$username]);
+        $students = DB::select('select * from students where class_num = ?',[$me[0]->class_num]);
 
-            $students = DB::select('select * from students where class_num = ?',[$me[0]->class_num]);
+        $data = compact('me','students');
 
-            $data = compact('me','students');
+        var_dump($me);
 
-            var_dump($me);
-
-            return view('user.index', ['data' => $data]);
+        return view('user.index', ['data' => $data]);
 
     }
 
     public function loginPage(){
         session_start();
 
-        if (isset($_SESSION["username"])) {
+        if (isset($_SESSION["username_stu"])) {
             return redirect('/user/index/');
         }
         else {
@@ -59,7 +58,7 @@ class UserController extends Controller
 
         if (sizeof($rows)!=0 && $password == $rows[0]->password) {
             session_start();
-            $_SESSION["username"] = $username;
+            $_SESSION["username_stu"] = $username;
             $_SESSION["competence"] = $competence;
 
             return redirect('/user/index');
@@ -99,7 +98,7 @@ class UserController extends Controller
             grade = '{$grade}' 
             where id = ?", [$user_id]);
 
-        $_SESSION['username'] = $username;
+        $_SESSION['username_stu'] = $username;
 
         if ($affected != 0) {
             return redirect('/user/index');

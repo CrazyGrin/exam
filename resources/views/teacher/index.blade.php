@@ -26,7 +26,16 @@
         </p>
         <hr>
         @endforeach
-
+        <div>发布一份公告</div>
+        <form action="{{ url('/announcement') }}" method="POST">
+            {!! csrf_field() !!}
+            <input type="hidden" name="publisher_id" value="{{$data['me'][0]->id}}">
+            <input type="text" name="title" required="required" placeholder="请输入标题" style="width: 300px;height: 40px;padding: 0 10px;margin: 20px 0;">
+            <br>
+            <textarea name="body" rows="10" required="required" placeholder="请输入内容" style="resize: none; width: 300px;height: 500px;padding: 20px"></textarea>
+            <br>
+            <button type="submit">发布公告</button>
+        </form>
         <form action="./"></form>
         <form action="./logout" method="GET">
             <button type="submit">退出登录</button>

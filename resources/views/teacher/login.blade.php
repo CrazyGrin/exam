@@ -11,8 +11,8 @@
     <div class="nav"></div>
     <div class="main">
         <form action="./login" method="POST">
-            <input type="text" required="required name="username">
-            <input type="password" required="required name="password">
+            <input type="text" required="required" name="username">
+            <input type="password" required="required" name="password">
             <input type="hidden" name="auth" value="2">
             <button type="submit">老师登录</button>
             <input type="hidden" name="_token" value="{{ csrf_token() }}"></form>
