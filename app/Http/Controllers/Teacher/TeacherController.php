@@ -74,4 +74,36 @@ class TeacherController extends Controller
 
         return redirect('/teacher/login');
     }
+
+        public function update(Request $request){
+
+        session_start();
+        $user_id = $request->user_id;
+        $username = $request->username;
+        $password = $request->password;
+        $gender = $request->gender;
+        $class_num = $request->class_num;
+        $major_num = $request->major_num;
+        $major = $request->major;
+        $grade = $request->grade;
+
+        $affected = DB::update("update students set 
+            name = '{$username}',
+            password = '{$password}',
+            gender = '{$gender}',
+            class_num = '{$class_num}',
+            major_num = '{$major_num}',
+            major = '{$major}',
+            grade = '{$grade}' 
+            where id = ?", [$user_id]);
+
+        $_SESSION['username_stu'] = $username;
+
+        if ($affected != 0) {
+            return redirect('/user/index');
+        }
+        else {
+            return "未做出更改";
+        }
+    }
 }
