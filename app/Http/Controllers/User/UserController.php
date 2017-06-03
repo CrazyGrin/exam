@@ -50,12 +50,12 @@ class UserController extends Controller
 
     	$rows = DB::select('select password from users where name = ?', [$username]);
 
-    	$Competence = DB::select('select auth from users where name = ?', [$username]);
+    	$competence = DB::select('select auth from users where name = ?', [$username]);
 
 		if (sizeof($rows)!=0) {
 			session_start();
 			$_SESSION["username"] = $username;
-			$_SESSION["Competence"] = $Competence;
+			$_SESSION["competence"] = $competence;
 
             return redirect('/user/index');
             //...
