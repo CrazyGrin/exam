@@ -32,11 +32,14 @@ class TeacherController extends Controller
             $username = $_SESSION["username_tea"];
             $me = DB::select('select * from teachers where name = ?' ,[$username]);
 
-            var_dump($me[0]->class_num);
-
             $students = DB::select('select * from students where class_num = ?' ,[$me[0]->class_num]);
 
-            $data = compact('me','students');
+            $announcements = DB::select('select * from announcements where publisher_id = ?',[$me[0]->id]);
+
+            // $allStudents = DB::select('select * from students');
+            $allStudents = DB::table('students')->paginate(10);
+
+            $data = compact('me','students','announcements','allStudents');
 
             var_dump($data);
 

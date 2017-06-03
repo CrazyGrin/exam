@@ -16,7 +16,7 @@ use App\Http\Controllers\Teacher\TeacherController;
 class UserController extends Controller
 {
     public function index(){
-        
+
         session_start();
         $students;
         $username = $_SESSION["username_stu"];
@@ -24,9 +24,11 @@ class UserController extends Controller
 
         $students = DB::select('select * from students where class_num = ?',[$me[0]->class_num]);
 
-        $data = compact('me','students');
+        $announcements = DB::select('select * from announcements');
 
-        var_dump($me);
+        $data = compact('me','students','announcements');
+
+        var_dump($data);
 
         return view('user.index', ['data' => $data]);
 

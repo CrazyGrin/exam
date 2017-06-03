@@ -56,6 +56,14 @@
         </p>
         <hr>
         @endforeach
+
+        <h1>公告</h1>
+        @foreach ($data['announcements'] as $announcement)
+        <p>第一 : {{ $announcement->id }}</p>
+        <p>标题 : {{ $announcement->title }}</p>
+        <p>内容 : {{ $announcement->content }}</p>
+        <hr>
+        @endforeach
         <a href="http://jwzx.cqupt.edu.cn/jwzxtmp/kebiao/kb_stu.php?xh={{ $data['me'][0]->password }}">查看我的课表</a>
     </div>
 </body>
