@@ -36,12 +36,12 @@ class TeacherController extends Controller
 
             $announcements = DB::select('select * from announcements where publisher_id = ?',[$me[0]->id]);
 
-            // $allStudents = DB::select('select * from students');
-            $allStudents = DB::table('students')->paginate(10);
+            $allStudents = DB::select('select * from students');
+            // $allStudents = DB::table('students')->paginate(10);
 
             $data = compact('me','students','announcements','allStudents');
 
-            var_dump($data);
+            // var_dump($data);
 
             return view('teacher.index', ['data' => $data]);
 

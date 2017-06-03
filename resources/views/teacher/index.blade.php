@@ -15,20 +15,33 @@
         </form>
         <form action="./update" method="POST"></form>
         <h1>我的学生</h1>
+         <table id="firm_table" class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>学号(密码)</th>
+                    <th>性别</th>
+                    <th>班级号</th>
+                    <th>专业号</th>
+                    <th>专业名称</th>
+                    <th>年级</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data['students'] as $student)
+                <tr>
+                    <td>{{ $student->name }}<a href="http://jwzx.cqupt.edu.cn/jwzxtmp/kebiao/kb_stu.php?xh={{ $student->password }}">课表</a></td>
+                    <td>{{ $student->password }}</td>
+                    <td>{{ $student->gender }}</td>
+                    <td>{{ $student->class_num }}</td>
+                    <td>{{ $student->major_num }}</td>
+                    <td>{{ $student->major }}</td>
+                    <td>{{ $student->grade }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
         <hr>
-        @foreach ($data['students'] as $student)
-        <p>姓名 : {{ $student->name }}</p>
-        <p>学号(密码) : {{ $student->password }}</p>
-        <p>性别 : {{ $student->gender }}</p>
-        <p>班级号 : {{ $student->class_num }}</p>
-        <p>专业号 : {{ $student->major_num }}</p>
-        <p>专业名称 : {{ $student->major }}</p>
-        <p>年级 : {{ $student->grade }}</p>
-        <p>
-            <a href="http://jwzx.cqupt.edu.cn/jwzxtmp/kebiao/kb_stu.php?xh={{ $student->password }}">查看他的课表</a>
-        </p>
-        <hr>
-        @endforeach
         <div>发布一份公告</div>
         <form action="{{ url('/announcement') }}" method="POST">
             {!! csrf_field() !!}
@@ -49,20 +62,46 @@
         @endforeach
         <h1>所有学生</h1>
         <hr>
-        @foreach ($data['allStudents'] as $allStudent)
-        <p>姓名 : {{ $allStudent->name }}</p>
-        <p>学号(密码) : {{ $allStudent->password }}</p>
-        <p>性别 : {{ $allStudent->gender }}</p>
-        <p>班级号 : {{ $allStudent->class_num }}</p>
-        <p>专业号 : {{ $allStudent->major_num }}</p>
-        <p>专业名称 : {{ $allStudent->major }}</p>
-        <p>年级 : {{ $allStudent->grade }}</p>
-        <p>
-            <a href="http://jwzx.cqupt.edu.cn/jwzxtmp/kebiao/kb_stu.php?xh={{ $student->password }}">查看他的课表</a>
-        </p>
-        <hr>
-        @endforeach
-        {{ $data['allStudents']->links() }}
-    </div>
+
+        <button type="button" id="outputxls">
+            导出
+        </button>
+
+         <table id="firm_table" class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>学号(密码)</th>
+                    <th>性别</th>
+                    <th>班级号</th>
+                    <th>专业号</th>
+                    <th>专业名称</th>
+                    <th>年级</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data['allStudents'] as $allStudent)
+                <tr>
+                    <td>{{ $allStudent->name }}</td>
+                    <td>{{ $allStudent->password }}</td>
+                    <td>{{ $allStudent->gender }}</td>
+                    <td>{{ $allStudent->class_num }}</td>
+                    <td>{{ $allStudent->major_num }}</td>
+                    <td>{{ $allStudent->major }}</td>
+                    <td>{{ $allStudent->grade }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <hr></div>
+    <script src="{{ URL::asset('/') }}/plug/tableExporter.js"></script>
+    <script type="text/javascript">
+    document.querySelector('#outputxls').onclick = ()=>{
+        $('.table').tableExport({
+            filename: 'table',
+            format: 'xls'
+        });
+    }
+    </script>
 </body>
 </html>
