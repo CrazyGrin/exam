@@ -13,11 +13,20 @@
         <form action="./login" method="POST">
             <input type="text" name="username">
             <input type="password" name="password">
-            <select name="auth">
-                <option selected value="1">学生</option>
-                <option value="2">老师</option>
-            </select>
-            <button type="submit">test</button>
+            <button type="submit">学生登录</button>
+            <input type="hidden" name="auth" value="1">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}"></form>
+        <form action="./login" method="POST">
+            <input type="text" name="username">
+            <input type="password" name="password">
+            <input type="hidden" name="auth" value="2">
+            <button type="submit">老师登录</button>
+            <input type="hidden" name="_token" value="{{ csrf_token() }}"></form>
+        <form action="./login" method="POST">
+            <input type="text" name="username">
+            <input type="password" name="password">
+            <button type="submit">管理员登录</button>
+            <input type="hidden" name="auth" value="3">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"></form>
     </div>
 </body>

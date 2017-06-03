@@ -11,32 +11,42 @@ use App\Http\Controllers\Controller;
 use App\Model\User;
 use App\Model\Student;
 
+use App\Http\Controllers\Teacher\TeacherController;
+
 class UserController extends Controller
 {
-    public function index(){
+    public function index($auth,Request $request){
+        
 
-        session_start();
-        $students;
-        $username = $_SESSION["username"];
-        $me = DB::select('select * from students where name = ?', [$username]);
+        if ($auth == 1) {
+            session_start();
+            $students;
+            $username = $_SESSION["username"];
+            $me = DB::select('select * from students where name = ?', [$username]);
 
-        // return view('user.index', ['User' => $rows]);
-        $students = DB::select('select * from students where class_num = ?',[$me[0]->class_num]);
+            $students = DB::select('select * from students where class_num = ?',[$me[0]->class_num]);
 
-        $data = compact('me','students');
+            $data = compact('me','students');
 
-        var_dump($me);
+            var_dump($me);
 
-        return view('user.index', ['data' => $data]);
+            return view('user.index', ['data' => $data]);
+        } elseif ($auth == 2) {
+            $teacherController = new TeacherController();
+            $teacherController->index($request);
+        }
+
     }
 
     public function loginPage(){
         session_start();
 
         if (isset($_SESSION["username"])) {
-            return redirect('/user/index');
+            return redirect('/user/index/');
         }
-    	return view('user.login');
+        else {
+            return view('user.login');
+        }
     }
 
     public function createPage(){
@@ -47,21 +57,39 @@ class UserController extends Controller
 
     	$username = $request->username;
     	$password = $request->password;
+        $auth = $request->auth;
 
-    	$rows = DB::select('select password from users where name = ?', [$username]);
 
-    	$competence = DB::select('select auth from users where name = ?', [$username]);
+        echo "$auth";
+        if ($auth == 1) {
 
-		if (sizeof($rows)!=0) {
-			session_start();
-			$_SESSION["username"] = $username;
-			$_SESSION["competence"] = $competence;
+            $rows = DB::select('select password from users where name = ?', [$username]);
 
-            return redirect('/user/index');
-            //...
-		}else{
-			return "fail";
-		};
+            $competence = DB::select('select auth from users where name = ?', [$username]);
+
+            if (sizeof($rows)!=0 && $password == $rows[0]->password) {
+                session_start();
+                $_SESSION["username"] = $username;
+                $_SESSION["competence"] = $competence;
+
+                if ($auth == 1) {
+                    return redirect('/user/index/' . $auth);
+                }
+                //...
+            }else{
+                return "fail";
+            };
+        }elseif ($auth == 2) {
+
+            session_start();
+            $_SESSION["username"] = $username;
+            $_SESSION["competence"] = $competence;
+            
+            return redirect('/user/index/' . $auth);
+
+        }elseif ($auth == 3) {
+            echo "管理员界面";
+        }
 
     }
 
@@ -75,6 +103,7 @@ class UserController extends Controller
 
     public function update(Request $request){
 
+        session_start();
         $user_id = $request->user_id;
         $username = $request->username;
         $password = $request->password;
@@ -84,7 +113,17 @@ class UserController extends Controller
         $major = $request->major;
         $grade = $request->grade;
 
-        $affected = DB::update("update users set 
+        echo "update student set 
+            name = '{$username}',
+            password = '{$password}',
+            gender = '{$gender}',
+            class_num = '{$class_num}',
+            major_num = '{$major_num}',
+            major = '{$major}',
+            grade = '{$grade}' 
+            where id = ?";
+
+            DB::update("update students set 
             name = '{$username}',
             password = '{$password}',
             gender = '{$gender}',
@@ -93,6 +132,12 @@ class UserController extends Controller
             major = '{$major}',
             grade = '{$grade}' 
             where id = ?", [$user_id]);
+
+            DB::update("update users set 
+            name = '{$username}' 
+            where password = ?", [$password]);
+
+        $_SESSION['username'] = $username;
 
         if ($affected != 0) {
             return redirect('/user/index');
@@ -103,6 +148,7 @@ class UserController extends Controller
     }
 
     public function logout(){
+        echo "string";
         session_start();
         session_destroy();
 

@@ -18,7 +18,7 @@ Route::get('/', function () {
 //User
 Route::group(['prefix' => '/user'], function () {
 	//index
-	Route::get('/index','User\UserController@index');
+	Route::get('/index/{auth}','User\UserController@index');
 
 	//login
 	Route::get('/login','User\UserController@loginPage');
@@ -26,19 +26,26 @@ Route::group(['prefix' => '/user'], function () {
 
 	//logout
 	Route::get('/logout','User\UserController@logout');
+
 	//register
 	Route::get('/create','User\UserController@createPage');
 	Route::post('/create','User\UserController@create');
 
 	//update
-	Route::post('/user/update','User\UserController@update');
+	Route::any('/update','User\UserController@update');
 
 	//show
 	// Route::group(['prefix' => '/show/{num}'], function () {
 	//Route::get('/','User\UserController@show');
 	// });
 });
+
+// Route::get('user/index/logout','User\UserController@logout');
 //Class
 Route::group(['prefix' => '/course'], function () {
 	Route::get('/{num}','Course\CourseController@showCourseByNum');
+});
+
+Route::group(['prefix' => '/teacher'], function () {
+	Route::get('/index','Course\CourseController@showCourseByNum');
 });

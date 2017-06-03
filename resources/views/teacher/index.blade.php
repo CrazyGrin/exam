@@ -10,34 +10,10 @@
 <body>
     <div class="nav"></div>
     <div class="main">
-        <form action="http://localhost/RedrockExam/public/user/update" method="POST">
-            <input type="hidden" name="user_id" value="{{ $data['me'][0]->
-            id }}">
-            <input type="text" name="username" value="{{ $data['me'][0]->
-            name }}">
-            <br>
-            <input type="text" name="password" value="{{ $data['me'][0]->
-            password }}">
-            <br>
-            <input type="text" name="gender" value="{{ $data['me'][0]->
-            gender }}">
-            <br>
-            <input type="text" name="class_num" value="{{ $data['me'][0]->
-            class_num }}">
-            <br>
-            <input type="text" name="major_num" value="{{ $data['me'][0]->
-            major_num }}">
-            <br>
-            <input type="text" name="major" value="{{ $data['me'][0]->
-            major }}">
-            <br>
-            <input type="text" name="grade" value="{{ $data['me'][0]->
-            grade }}">
-            <br>
-            <button type="submit">修改个人信息</button>
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <hr></form>
-        <form action="http://localhost/RedrockExam/public/user/logout" method="GET">
+        <form action="./update" method="POST">
+            
+        </form>
+        <form action="./logout" method="GET">
             <button type="submit">退出登录</button>
         </form>
         <h1>本班学生</h1>
