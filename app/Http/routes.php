@@ -39,7 +39,7 @@ Route::group(['prefix' => '/user'], function () {
 //Teacher
 Route::group(['prefix' => '/teacher'], function () {
 	//index
-	Route::get('/index','teacher\TeacherController@index');
+	Route::any('/index','teacher\TeacherController@index');
 
 	//login
 	Route::get('/login','teacher\TeacherController@loginPage');

@@ -10,12 +10,30 @@
 <body>
     <div class="nav"></div>
     <div class="main">
+        <form action="http://localhost/RedrockExam/public/teacher/update" method="POST">
+            <input type="hidden" name="user_id" value="{{ $data['me'][0]->
+            id }}" readonly>
+            <input type="text" name="username" value="{{ $data['me'][0]->
+            name }}">
+            <br>
+            <input type="text" name="teacher_num" value="{{ $data['me'][0]->
+            teacher_num }}" readonly>
+            <br>
+            <input type="text" name="class_num" value="{{ $data['me'][0]->
+            class_num }}" readonly>
+            <br>
+            <input type="text" name="gender" value="{{ $data['me'][0]->
+            gender }}">
+            <br>
+            <button type="submit">修改个人信息</button>
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <hr></form>
         <form action="./logout" method="GET">
             <button type="submit">退出登录</button>
         </form>
         <form action="./update" method="POST"></form>
         <h1>我的学生</h1>
-         <table id="firm_table" class="table table-striped table-bordered table-hover">
+        <table id="firm_table" class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th>姓名</th>
@@ -30,7 +48,10 @@
             <tbody>
                 @foreach ($data['students'] as $student)
                 <tr>
-                    <td>{{ $student->name }}<a href="http://jwzx.cqupt.edu.cn/jwzxtmp/kebiao/kb_stu.php?xh={{ $student->password }}">课表</a></td>
+                    <td>
+                        {{ $student->name }}
+                        <a href="http://jwzx.cqupt.edu.cn/jwzxtmp/kebiao/kb_stu.php?xh={{ $student->password }}">课表</a>
+                    </td>
                     <td>{{ $student->password }}</td>
                     <td>{{ $student->gender }}</td>
                     <td>{{ $student->class_num }}</td>
@@ -63,11 +84,9 @@
         <h1>所有学生</h1>
         <hr>
 
-        <button type="button" id="outputxls">
-            导出
-        </button>
+        <button type="button" id="outputxls">导出</button>
 
-         <table id="firm_table" class="table table-striped table-bordered table-hover">
+        <table id="firm_table" class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th>姓名</th>
