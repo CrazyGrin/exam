@@ -10,14 +10,10 @@
 <body>
     <div class="nav"></div>
     <div class="main">
-        <form action="./update" method="POST">
-            
-        </form>
+        <form action="./update" method="POST"></form>
         <h1>我的学生</h1>
         <hr>
-
-                @foreach ($data['students'] as $student)
-        <p>id : {{ $student->id }}</p>
+        @foreach ($data['students'] as $student)
         <p>姓名 : {{ $student->name }}</p>
         <p>学号(密码) : {{ $student->password }}</p>
         <p>性别 : {{ $student->gender }}</p>
@@ -30,6 +26,8 @@
         </p>
         <hr>
         @endforeach
+
+        <form action="./"></form>
         <form action="./logout" method="GET">
             <button type="submit">退出登录</button>
         </form>

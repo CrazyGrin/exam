@@ -28,11 +28,13 @@ class TeacherController extends Controller
 
     public function index(Request $request){
 
-            // session_start();
-            // $username = $_SESSION["username"];
-            $me = DB::select('select * from teachers where name = ?' ,['yunhan']);
+            session_start();
+            $username = $_SESSION["username"];
+            $me = DB::select('select * from teachers where name = ?' ,[$username]);
 
-            $students = DB::select('select * from students where class_num = ?' ,['13061501']);
+            var_dump($me[0]->class_num);
+
+            $students = DB::select('select * from students where class_num = ?' ,[$me[0]->class_num]);
 
             $data = compact('me','students');
 
@@ -51,19 +53,26 @@ class TeacherController extends Controller
 
         $competence = DB::select('select auth from users where name = ?', [$username]);
 
-        // if (sizeof($rows)!=0 && $password == $rows[0]->password) {
-        //     session_start();
-        //     $_SESSION["username"] = $username;
-        //     $_SESSION["competence"] = $competence;
+        if (sizeof($rows)!=0 && $password == $rows[0]->password) {
+            session_start();
+            $_SESSION["username"] = $username;
+            $_SESSION["competence"] = $competence;
 
             return redirect('/teacher/index');
-        // }else{
-        //     return "fail";
-        // };
+        }else{
+            return "fail";
+        };
 
     }
 
     public function createAnnouncement(){
 
+    }
+
+    public function logout(){
+        session_start();
+        session_destroy();
+
+        return redirect('/teacher/login');
     }
 }

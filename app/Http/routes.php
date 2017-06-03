@@ -59,6 +59,7 @@ Route::group(['prefix' => '/teacher'], function () {
 	//update
 	Route::any('/update','teacher\TeacherController@update');
 
+	Route::resource('/announcement', 'teacher\AnnouncementController');
 	//show
 	// Route::group(['prefix' => '/show/{num}'], function () {
 	//Route::get('/','User\UserController@show');
